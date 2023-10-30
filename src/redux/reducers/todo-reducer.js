@@ -14,6 +14,18 @@ function todoReducer(state = initialState, action) {
 
       return { ...state, todos: newTodos };
     }
+    case "EDIT_TODO": {
+      const cloneTodos = state.todos.map((todo) => {
+        if (todo.id === action.payload.id) {
+          return { ...todo, value: action.payload.value };
+        }
+        return todo;
+      });
+
+      localStorage.setItem("todos", JSON.stringify(cloneTodos));
+
+      return { ...state, todos: cloneTodos };
+    }
     case "DELETE_TODO": {
       const cloneTodos = [...state.todos];
       const index = cloneTodos.findIndex((todo) => todo.id === action.payload);
